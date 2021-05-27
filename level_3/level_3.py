@@ -8,7 +8,6 @@ from PIL import Image
 from pytesseract import image_to_string
 
 url = "http://158.69.76.135/level3.php"
-ip = "http://158.69.76.135"
 id = 2835
 repeat = 0
 i = 0

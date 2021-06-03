@@ -9,7 +9,7 @@ from requests.models import Response
 
 def get_proxies():
 
-    url = 'https://www.us-proxy.org//'
+    url = 'https://free-proxy-list.net/'
     response = requests.get(url)
     parser = fromstring(response.text)
     proxies = set()

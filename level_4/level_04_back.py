@@ -57,9 +57,9 @@ while repeat < 98:
                         data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=5)
         repeat += 1
         i += 1
-        
+        s.cookies.clear()
         
     except:
         i += 1
         s.cookies.clear()
-        print("fail/n")
+        print("fail\n")

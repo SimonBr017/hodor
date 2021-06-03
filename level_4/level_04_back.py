@@ -5,9 +5,11 @@ from bs4 import BeautifulSoup
 from lxml.html import fromstring
 from itertools import cycle
 
+from requests.models import Response
+
 def get_proxies():
 
-    url = 'https://www.us-proxy.org'
+    url = 'https://www.us-proxy.org//'
     response = requests.get(url)
     parser = fromstring(response.text)
     proxies = set()
@@ -19,8 +21,6 @@ def get_proxies():
             proxies.add(proxy)
 
     return proxies
-
-
 
 repeat = 0
 
@@ -36,6 +36,7 @@ head = {'Referer': url, 'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64;\
 
 
 while repeat < 98:
+    
     print("vote:{}".format(repeat))
     
     proxy = next(proxy_pool)
@@ -51,12 +52,13 @@ while repeat < 98:
 
         key = soup.find("input", {"name": "key"})
         key_value = key.get("value")
-
+        
         s.proxies = {"http": "http://" + proxy, "https": "http://" + proxy}
         result = s.post(url, headers=head,
-                        data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=5)
+                        data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=1)
         repeat += 1
         i += 1
+        print("Sucsess\n")
         s.cookies.clear()
         
     except:

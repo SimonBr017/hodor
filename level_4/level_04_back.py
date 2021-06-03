@@ -46,7 +46,7 @@ head = {'Referer': url, 'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64;\
 
 
 
-while repeat < 98:
+while repeat <= 98:
     
     
     

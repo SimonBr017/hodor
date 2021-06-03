@@ -7,7 +7,7 @@ from itertools import cycle
 
 def get_proxies():
 
-    url = 'https://free-proxy-list.net/'
+    url = 'https://www.us-proxy.org'
     response = requests.get(url)
     parser = fromstring(response.text)
     proxies = set()
@@ -43,7 +43,6 @@ while repeat < 98:
     try:
         print(proxy)
         s = requests.session()
-        s.proxies = {"http": "http://" + proxy, "https": "http://" + proxy}
 
         r = s.get(url)
         doc = r.content
@@ -53,13 +52,14 @@ while repeat < 98:
         key = soup.find("input", {"name": "key"})
         key_value = key.get("value")
 
+        s.proxies = {"http": "http://" + proxy, "https": "http://" + proxy}
         result = s.post(url, headers=head,
-                        data={"id": id, "holdthedoor": 1, "key": key_value})
+                        data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=5)
         repeat += 1
         i += 1
-        s.cookies.clear()
+        
         
     except:
         i += 1
         s.cookies.clear()
-        print("foirage")
+        print("fail/n")

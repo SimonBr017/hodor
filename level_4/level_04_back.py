@@ -22,6 +22,17 @@ def get_proxies():
 
     return proxies
 
+def get_vote():
+    url = 'http://158.69.76.135/level4.php'
+    content= requests.get(url).text
+    parser = fromstring(content)
+
+    for i in parser.xpath('//table/tr'):
+        if i.xpath('.//td[1][contains(text(),"2835")]'):
+            vote = i.xpath('./td[2]/text()')[0]
+
+    return int(vote)
+
 repeat = 0
 
 proxies = get_proxies()
@@ -37,11 +48,14 @@ head = {'Referer': url, 'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64;\
 
 while repeat < 98:
     
-    print("vote:{}".format(repeat))
+    
     
     proxy = next(proxy_pool)
     print("Request #%d"%i)
     try:
+        vote = get_vote()
+        print("vote:{}".format(repeat))
+        print("vote reel: {}".format(vote))
         print(proxy)
         s = requests.session()
 
@@ -55,13 +69,20 @@ while repeat < 98:
         
         s.proxies = {"http": "http://" + proxy, "https": "http://" + proxy}
         result = s.post(url, headers=head,
-                        data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=1)
-        repeat += 1
+                        data={"id": id, "holdthedoor": 1, "key": key_value}, timeout=5)
+        
+        new_vote = get_vote()
+        print("vote normalement reel {}".format(vote))
+        print("new_vote: {}".format(new_vote))
+       
+        if new_vote == vote + 1:
+            repeat += 1
+            print("Sucsess !!!\n")
         i += 1
-        print("Sucsess\n")
+        print("Fail to vote\n")
         s.cookies.clear()
         
     except:
         i += 1
         s.cookies.clear()
-        print("fail\n")
+        print("Ip Error : fail\n")
